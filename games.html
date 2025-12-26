@@ -1,9 +1,10 @@
-Note the games are not hosted by me. some random guy on github did it: 3kho
+games are hosted by 3kh0 on github not me
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Activities</title>
+
 <style>
 body {
     background:
@@ -16,104 +17,49 @@ body {
     animation: moveDots 35s linear infinite;
     font-family: "Segoe UI", Arial, sans-serif;
     color: #eee;
-    padding: 20px;
     margin: 0;
-    overflow-x: hidden;
+    padding-top: 80px;
     background-color: #0d0d10;
     text-align: center;
 }
 
-body.no-dots {
-    background: #0d0d10 !important;
-    animation: none !important;
+@keyframes moveDots {
+    from { background-position: 0 0; }
+    to { background-position: -600px 600px; }
 }
 
-@keyframes moveDots { from { background-position: 0 0; } to { background-position: -600px 600px; } }
-@keyframes fadeIn { to { opacity: 1; } }
-
-#loadingScreen {
-    position: fixed;
-    inset: 0;
-    background: #0d0d0f;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    z-index: 9999;
-    opacity: 1;
-    transition: opacity .2s ease-out;
-}
-#loadingScreen.hide { opacity: 0; pointer-events: none; }
-
-.loader {
-    width: 48px;
-    height: 48px;
-    border: 4px solid #222;
-    border-top-color: white;
-    border-radius: 50%;
-    animation: spin .45s linear infinite;
-    filter: drop-shadow(0 0 4px white);
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-
-h2 {
-    text-align: center;
-    margin-top: 5px;
-    margin-bottom: 20px;
-    opacity: 0;
-    animation: fadeIn .2s forwards;
-    text-shadow: 0 0 6px #ffffff55;
-}
-
-#searchBox, #floatingSearch {
-    width: 100%;
-    max-width: 480px;
-    padding: 14px 16px;
-    font-size: 17px;
-    border-radius: 12px;
-    border: 1px solid #292933;
-    background: #141418;
-    color: #fff;
-    margin: 0 auto 22px auto;
-    box-sizing: border-box;
-    display: block;
-    opacity: 0;
-    animation: fadeIn .25s forwards;
-    transition: opacity .25s ease;
-}
-
-#searchBox:focus, #floatingSearch:focus {
-    outline: none;
-    border-color: white;
-    background: #1a1a22;
-}
-
-/* === NEW TOP BAR FOR FLOATING SEARCH + TITLE === */
+/* ===== TOP BAR ===== */
 #gameTopBar {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
+    width: 100%;
     height: 60px;
     background: #1a1a22;
     border-bottom: 1px solid #292933;
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
-    z-index: 500;
     box-sizing: border-box;
+    z-index: 1000;
 }
 
 #arcadeTitle {
     font-size: 20px;
-    color: white;
     font-weight: bold;
+    color: white;
 }
 
-#floatingSearchSmall {
+#topControls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+#searchBox {
     width: 100%;
-    max-width: 360px;
+    max-width: 300px;
     padding: 10px 12px;
     font-size: 15px;
     border-radius: 10px;
@@ -122,19 +68,54 @@ h2 {
     color: white;
 }
 
-#floatingSearchSmall:focus {
+#searchBox:focus {
     outline: none;
     border-color: white;
     background: #1a1a22;
 }
 
+#importantBtn {
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid #ff5555;
+    background: #1a0f12;
+    color: #ff7777;
+    cursor: pointer;
+    font-size: 14px;
+}
+#importantBtn:hover {
+    background: #2a1418;
+}
+
+/* ===== LOADING ===== */
+#loadingScreen {
+    position: fixed;
+    inset: 0;
+    background: #0d0d0f;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.loader {
+    width: 48px;
+    height: 48px;
+    border: 4px solid #222;
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin .45s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ===== BUTTON GRID ===== */
 #buttons {
     display: flex;
     flex-wrap: wrap;
     gap: 14px;
     justify-content: center;
-    opacity: 0;
-    animation: fadeIn .3s forwards;
+    padding: 20px;
 }
 
 button {
@@ -146,87 +127,87 @@ button {
     cursor: pointer;
     font-size: 15px;
     min-width: 150px;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    transition: background .15s, transform .1s;
 }
 
-#gamePlayer {
-    display: none;
+button:hover {
+    background: #1f1f29;
+    transform: translateY(-2px);
+}
+
+/* ===== IMPORTANT MODAL ===== */
+#importantModal {
     position: fixed;
-    top: 80px;
-    left: 20px;
-    width: 640px;
-    height: 520px; /* increased height */
-    background: #15151b;
-    padding: 0;
-    border-radius: 14px;
-    border: 1px solid #2d2d36;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.6);
-    flex-direction: column;
-    z-index: 999;
-    overflow: hidden;
-}
-
-#playerTopBar {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding: 6px 12px;
-    background: #1b1b22;
-    border-bottom: 1px solid #292933;
-}
-
-.playerBtn {
-    background: #1b1b22;
-    border: 2px solid #292933; /* thicker border */
-    padding: 8px 12px;
-    border-radius: 12px; /* more rounded */
-    cursor: pointer;
-    color: white;
-    display: flex;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    display: none;
     align-items: center;
     justify-content: center;
+    z-index: 5000;
 }
-.playerBtn svg { width: 28px; height: 28px; }
-.playerBtn svg { width: 28px; height: 28px; }
 
-#gameFrame {
-    width: 100%;
-    height: calc(100% - 44px); /* still adjusts dynamically */
-    border: none;
-    background: #000;
+#importantBox {
+    background: #141418;
+    border: 1px solid #ff5555;
+    border-radius: 16px;
+    padding: 22px 24px;
+    max-width: 460px;
+    text-align: center;
+    box-shadow: 0 0 25px rgba(255,85,85,0.25);
+}
+
+#importantBox h3 {
+    margin-top: 0;
+    color: #ff7777;
+}
+
+#importantBox p {
+    color: #ddd;
+    line-height: 1.5;
+}
+
+#importantBox button {
+    margin-top: 16px;
+    padding: 10px 18px;
+    border-radius: 12px;
+    border: 1px solid #292933;
+    background: #1a1a22;
+    color: white;
+    cursor: pointer;
 }
 </style>
 </head>
+
 <body>
 
+<!-- LOADING -->
 <div id="loadingScreen">
     <div class="loader"></div>
     <p style="margin-top:14px;color:#777;">Loading…</p>
 </div>
 
-<h2>Game List</h2>
-
-<input id="searchBox" type="text" placeholder="Search games...">
+<!-- TOP BAR -->
 <div id="gameTopBar">
     <div id="arcadeTitle">Ethyrnal's Arcade</div>
-    <input id="floatingSearchSmall" type="text" placeholder="Search games...">
+    <div id="topControls">
+        <input id="searchBox" type="text" placeholder="Search games...">
+        <button id="importantBtn">Important</button>
+    </div>
 </div>
 
+<!-- GAME BUTTONS -->
 <div id="buttons">Loading…</div>
 
-<div id="gamePlayer">
-    <div id="playerTopBar">
-        <button class="playerBtn" onclick="fullscreenGame()">
-            <svg viewBox="0 0 24 24" width="24" height="24" fill="white"><path d="M4 4h6v2H6v4H4V4zm16 0v6h-2V6h-4V4h6zm0 16h-6v-2h4v-4h2v6zM4 20v-6h2v4h4v2H4z"/></svg>
-        </button>
-        <button class="playerBtn" onclick="closePlayer()">
-            <svg viewBox="0 0 24 24" width="24" height="24" fill="white"><path d="M15 6l-6 6 6 6" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
+<!-- IMPORTANT MODAL -->
+<div id="importantModal">
+    <div id="importantBox">
+        <h3>Important</h3>
+        <p>
+            Our website does not have "Viruses", if any game says extracting data,
+            it is extracting the game data you dumbass.
+        </p>
+        <button onclick="closeImportant()">OK</button>
     </div>
-    <iframe id="gameFrame"></iframe>
 </div>
 
 <script>
@@ -235,29 +216,23 @@ let lines = [];
 let lastRendered = [];
 
 const searchBox = document.getElementById("searchBox");
-const floatingSearchSmall = document.getElementById("floatingSearchSmall");
 const buttonsEl = document.getElementById("buttons");
-const player = document.getElementById("gamePlayer");
-const frame = document.getElementById("gameFrame");
-const topBar = document.getElementById("gameTopBar");
 
 fetch(url)
   .then(r => r.text())
   .then(text => {
       lines = text.split("\n").filter(l => l.trim() !== "");
       renderButtons(lines);
-      requestAnimationFrame(() =>
-          document.getElementById("loadingScreen").classList.add("hide")
-      );
+      document.getElementById("loadingScreen").remove();
   })
   .catch(() => {
-      buttonsEl.innerHTML = "Error loading file.";
-      document.getElementById("loadingScreen").classList.add("hide");
+      buttonsEl.textContent = "Error loading GameList.txt";
+      document.getElementById("loadingScreen").remove();
   });
 
 function cleanName(original) {
     let n = original.trim();
-    if (n.toLowerCase().endsWith(".html")) n = n.slice(0,-5);
+    if (n.toLowerCase().endsWith(".html")) n = n.slice(0, -5);
     if (n.toLowerCase().startsWith("cl")) n = n.slice(2);
     return n.charAt(0).toUpperCase() + n.slice(1);
 }
@@ -265,107 +240,64 @@ function cleanName(original) {
 function renderButtons(list) {
     if (JSON.stringify(list) === JSON.stringify(lastRendered)) return;
     lastRendered = [...list];
-    const frag = document.createDocumentFragment();
+    buttonsEl.innerHTML = "";
+
     list.forEach(original => {
         const btn = document.createElement("button");
         btn.textContent = cleanName(original);
-        btn.onclick = () => openFloatingPlayer(original.trim());
-        frag.appendChild(btn);
+        btn.onclick = () => openGame(original.trim());
+        buttonsEl.appendChild(btn);
     });
-    buttonsEl.innerHTML = "";
-    buttonsEl.appendChild(frag);
 }
 
-async function openFloatingPlayer(filename) {
+async function openGame(filename) {
     const candidates = [
         `activities/${filename}`,
         `activities2/${filename}`,
-        `${filename}`
+        filename
     ];
-    let found = null;
+
     for (const p of candidates) {
-        try { const r = await fetch(p, { method: "HEAD" }); if (r.ok){found=p; break;} } catch{}
+        try {
+            const r = await fetch(p, { method: "HEAD" });
+            if (r.ok) {
+                window.open(p, "_blank");
+                return;
+            }
+        } catch {}
     }
-    if(!found) found=candidates[2];
-
-    document.querySelector("h2").style.display="none";
-    searchBox.style.display="none";
-
-    topBar.style.display = "flex";
-
-    buttonsEl.style.display="none";
-    player.style.display="flex";
-    frame.src = found;
-
-    document.body.classList.add("no-dots");
+    window.open(filename, "_blank");
 }
-
-function closePlayer() {
-    frame.src = "";
-    player.style.display = "none";
-    document.querySelector("h2").style.display = "block";
-    searchBox.style.display = "block";
-
-    topBar.style.display = "none";
-
-    renderButtons(lines);
-    buttonsEl.style.display = "flex";
-
-    player.style.width = "480px";
-    player.style.height = "360px";
-    player.style.top = "80px";
-    player.style.left = "20px";
-
-    document.body.classList.remove("no-dots");
-}
-
-function fullscreenGame() {
-    if(frame.requestFullscreen){
-        frame.requestFullscreen();
-        player.style.width="100%";
-        player.style.height="100%";
-        player.style.top="0";
-        player.style.left="0";
-        topBar.style.display="none";
-        buttonsEl.style.display="none";
-    }
-}
-
-document.addEventListener("fullscreenchange",()=>{
-    if(!document.fullscreenElement){
-        player.style.width="480px";
-        player.style.height="360px";
-        player.style.top="80px";
-        player.style.left="20px";
-        if(player.style.display!=="none") {
-            topBar.style.display="flex";
-            buttonsEl.style.display="none";
-        }
-    }
-});
-
-floatingSearchSmall.addEventListener("input", function() {
-    const q = this.value.toLowerCase();
-    const filtered = lines.filter(l => cleanName(l).toLowerCase().includes(q) || l.toLowerCase().includes(q));
-
-    if (filtered.length > 0) {
-        buttonsEl.style.display = "flex";
-    } else {
-        buttonsEl.style.display = "none";
-    }
-
-    renderButtons(filtered);
-});
 
 let searchTimeout;
-searchBox.addEventListener("input",function(){
-    const q=this.value.toLowerCase();
+searchBox.addEventListener("input", () => {
     clearTimeout(searchTimeout);
-    searchTimeout=setTimeout(()=>{
-        const filtered=lines.filter(l=>cleanName(l).toLowerCase().includes(q)||l.toLowerCase().includes(q));
+    const q = searchBox.value.toLowerCase();
+    searchTimeout = setTimeout(() => {
+        const filtered = lines.filter(l =>
+            cleanName(l).toLowerCase().includes(q) ||
+            l.toLowerCase().includes(q)
+        );
         renderButtons(filtered);
-    },70);
+    }, 70);
+});
+
+/* IMPORTANT MODAL LOGIC */
+const importantBtn = document.getElementById("importantBtn");
+const importantModal = document.getElementById("importantModal");
+
+importantBtn.onclick = () => {
+    importantModal.style.display = "flex";
+};
+
+function closeImportant() {
+    importantModal.style.display = "none";
+}
+
+importantModal.addEventListener("click", e => {
+    if (e.target === importantModal) closeImportant();
 });
 </script>
+
 </body>
 </html>
